@@ -4,12 +4,21 @@
     <meta charset="UTF-8">
     <title>CSS Colorguide</title>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-    <style>.color { float: left; width: 50px; height: 50px; }</style>
+    <style>
+    .color {
+      float: left;
+      width: 50px;
+      height: 50px;
+    }
+    .sourcecode {
+      font-family: monospace;
+    }
+    </style>
   <body>
     <h1 class="text-center">CSS Colorguide</h1>
     <form class="container">
       <div class="form-group">
-        <textarea id="css" class="form-control" rows="20" placehodler="Paste your CSS here"></textarea>
+        <textarea id="css" class="form-control sourcecode" rows="20" placeholder="Paste your CSS here" spellcheck="false"></textarea>
       </div>
       <div class="form-group text-center">
         <button type="submit" class="btn btn-primary btn-lg">Parse</button>
