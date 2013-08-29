@@ -1,46 +1,63 @@
-function normalizeHex(color) {
-  var digits = color.toLowerCase().split('');
-  return digits.length === 7 ? digits.join('') : digits[0] + digits[1] + digits[1] + digits[2] + digits[2] + digits[3] + digits[3];
+function normalize(color) {
+  if (color.length === 4) {
+    var chars = color.split('');
+    color = chars[0] +
+      chars[1] + chars[1] +
+      chars[2] + chars[2] +
+      chars[3] + chars[3];
+  }
+
+  return color.toLowerCase();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  var inputElement = document.getElementById('css');
+
   if (localStorage.input) {
-    document.getElementById('css').value = localStorage.input;
+    inputElement.value = localStorage.input;
   }
 
-  document.getElementById('css').oninput = function () {
+  inputElement.oninput = function () {
     localStorage.input = this.value;
-  }
+  };
 
   window.onreset = function () {
     delete localStorage.input;
-  }
-});
+  };
 
-document.forms[0].onsubmit = function (e) {
-  var css = document.getElementById('css').value;
-  var matches = css.match(/#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?/g);
-  var res = {};
+  document.forms[0].onsubmit = function (e) {
+    var colors = inputElement.value.match(/#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?/g);
+    var swatches = {};
 
-  matches.forEach(function (i) {
-    i = normalizeHex(i);
-    res[i] ? res[i]++ : res[i] = 1;
-  });
+    colors.forEach(function (color) {
+      color = normalize(color);
+      swatches[color] ? swatches[color]++ : swatches[color] = 1;
+    });
 
-  var result = document.createElement('div');
-  result.id = 'result'
+    var resultElement = document.createElement('div');
+    resultElement.id = 'result';
 
-  for (var x in res) {
-    var div = document.createElement('div');
-    div.className = 'color';
-    div.style.backgroundColor = x;
-    div.title = x + ' (' + res[x] + ')';
-    if (x === '#ffffff') {
-      div.style.boxShadow = 'inset 0 0 0 1px #eee';
+    // TODO: Sort swatches by times used
+
+    for (var color in swatches) {
+      if (swatches.hasOwnProperty(color)) {
+        var swatchElement = document.createElement('div');
+
+        swatchElement.className = 'color';
+        swatchElement.title = color + ' ×' + swatches[color];
+
+        swatchElement.style.backgroundColor = color;
+        if (color === '#ffffff') {
+          swatchElement.style.boxShadow = 'inset 0 0 0 1px #eee';
+        }
+
+        resultElement.appendChild(swatchElement);
+      }
     }
-    result.appendChild(div)
-  }
-  document.body.appendChild(result);
-  location.href = '#result';
-  e.preventDefault();
-};
+
+    document.body.appendChild(resultElement);
+    location.href = '#result';
+
+    e.preventDefault();
+  };
+});
