@@ -12,6 +12,7 @@ function normalize(color) {
 
 document.addEventListener('DOMContentLoaded', function () {
   var inputElement = document.getElementById('css');
+  var resultElement = document.querySelector('[data-id=result]');
 
   if (localStorage.input) {
     inputElement.value = localStorage.input;
@@ -29,34 +30,40 @@ document.addEventListener('DOMContentLoaded', function () {
     var colors = inputElement.value.match(/#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?/g);
     var swatches = {};
 
-    colors.forEach(function (color) {
-      color = normalize(color);
-      swatches[color] ? swatches[color]++ : swatches[color] = 1;
-    });
+    if (colors) {
+      colors.forEach(function (color) {
+        color = normalize(color);
+        swatches[color] ? swatches[color]++ : swatches[color] = 1;
+      });
 
-    var resultElement = document.createElement('div');
-    resultElement.id = 'result';
+      // TODO: Sort swatches by times used
 
-    // TODO: Sort swatches by times used
+      // TODO: Keep heading
 
-    for (var color in swatches) {
-      if (swatches.hasOwnProperty(color)) {
-        var swatchElement = document.createElement('div');
+      resultElement.innerHTML = '';
 
-        swatchElement.className = 'color';
-        swatchElement.title = color + ' ×' + swatches[color];
+      for (var color in swatches) {
+        if (swatches.hasOwnProperty(color)) {
+          var swatchElement = document.createElement('div');
 
-        swatchElement.style.backgroundColor = color;
-        if (color === '#ffffff') {
-          swatchElement.style.boxShadow = 'inset 0 0 0 1px #eee';
+          swatchElement.className = 'color';
+          swatchElement.title = color + ' ×' + swatches[color];
+
+          swatchElement.style.backgroundColor = color;
+          if (color === '#ffffff') {
+            swatchElement.style.boxShadow = 'inset 0 0 0 1px #eee';
+          }
+
+          resultElement.appendChild(swatchElement);
         }
-
-        resultElement.appendChild(swatchElement);
       }
-    }
 
-    document.body.appendChild(resultElement);
-    location.href = '#result';
+      resultElement.removeAttribute('hidden');
+      resultElement.id = 'result';
+      location.href = '#result';
+    } else {
+      // TODO: Add error condition
+    }
 
     e.preventDefault();
   };

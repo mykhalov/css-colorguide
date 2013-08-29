@@ -7,16 +7,19 @@
     <style>
     .color {
       float: left;
-      width: 50px;
-      height: 50px;
+      width: 30px;
+      height: 30px;
     }
     .sourcecode {
       font-family: monospace;
     }
+    .result {
+      margin-bottom: 8px;
+    }
     </style>
-  <body>
+  <body class="container">
     <h1 class="text-center">CSS Colorguide</h1>
-    <form class="container">
+    <form>
       <div class="form-group">
         <textarea id="css" class="form-control sourcecode" rows="20" placeholder="Paste your CSS here" spellcheck="false"></textarea>
       </div>
@@ -25,6 +28,9 @@
         <button type="reset" class="btn btn-default btn-sm">Clear</button>
       </div>
     </form>
+    <div data-id="result" class="result" hidden>
+      <h2>Swatches</h2>
+    </div>
     <script src="assets/app.js"></script>
   </body>
 </html>
