@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
       }
     } else {
-      resultElement.innerHTML = '<p class="alert alert-warning">Can\'t find colors in given CSS</p>';
+      resultElement.innerHTML = '<p class="alert alert-warning">Can\'t find colors in given CSS.</p>';
     }
 
     resultElement.removeAttribute('hidden');
