@@ -38,9 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // TODO: Sort swatches by times used
 
-      // TODO: Keep heading
-
-      resultElement.innerHTML = '';
+      resultElement.innerHTML = '<h2>Colors</h2>';
 
       for (var color in swatches) {
         if (swatches.hasOwnProperty(color)) {
@@ -57,13 +55,13 @@ document.addEventListener('DOMContentLoaded', function () {
           resultElement.appendChild(swatchElement);
         }
       }
-
-      resultElement.removeAttribute('hidden');
-      resultElement.id = 'result';
-      location.href = '#result';
     } else {
-      // TODO: Add error condition
+      resultElement.innerHTML = '<p class="alert alert-warning">Can\'t find colors in given CSS</p>';
     }
+
+    resultElement.removeAttribute('hidden');
+    resultElement.id = 'result';
+    location.href = '#result';
 
     e.preventDefault();
   };
