@@ -1,4 +1,8 @@
+/* jshint quotmark: single, indent: 2 */
+
 function normalize(color) {
+  'use strict';
+
   if (color.length === 4) {
     var chars = color.split('');
     color = chars[0] +
@@ -11,6 +15,8 @@ function normalize(color) {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+  'use strict';
+
   var inputElement = document.getElementById('css');
   var resultElement = document.querySelector('[data-id=result]');
 
@@ -33,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (colors) {
       colors.forEach(function (color) {
         color = normalize(color);
-        swatches[color] ? swatches[color]++ : swatches[color] = 1;
+        swatches[color] = (swatches[color] || 0) + 1;
       });
 
       // TODO: Sort swatches by times used
