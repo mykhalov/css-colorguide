@@ -38,23 +38,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
       // TODO: Sort swatches by times used
 
-      resultElement.innerHTML = '<h2>Colors</h2>';
+      var resultString = '<h2>Colors</h2>';
 
-      for (var color in swatches) {
-        if (swatches.hasOwnProperty(color)) {
-          var swatchElement = document.createElement('div');
+      Object.keys(swatches).forEach(function (color) {
+        var shadow = (color === '#ffffff') ? 'inset 0 0 0 1px #eee' : 'none';
 
-          swatchElement.className = 'color';
-          swatchElement.title = color + ' ×' + swatches[color];
+        resultString += '<div class="color" ' +
+          'title="' + color + ' ×' + swatches[color] + '" ' +
+          'style="background-color:' + color + ';box-shadow:' + shadow + '"></div>';
+      });
 
-          swatchElement.style.backgroundColor = color;
-          if (color === '#ffffff') {
-            swatchElement.style.boxShadow = 'inset 0 0 0 1px #eee';
-          }
-
-          resultElement.appendChild(swatchElement);
-        }
-      }
+      resultElement.innerHTML = resultString;
     } else {
       resultElement.innerHTML = '<p class="alert alert-warning">Can\'t find colors in given CSS.</p>';
     }
