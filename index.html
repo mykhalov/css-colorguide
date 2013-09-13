@@ -11,7 +11,7 @@
 
     <link rel="stylesheet" href="assets/bootstrap.min.css">
     <style>
-    .color {
+    .swatch {
       float: left;
       width: 30px;
       height: 30px;
@@ -19,12 +19,18 @@
     .sourcecode {
       font-family: monospace;
     }
-    .result {
+    .result-container {
       margin-bottom: 8px;
+    }
+    .result-container::after {
+      content: "";
+      display: block;
+      clear: both;
     }
     </style>
   <body class="container">
     <h1 class="text-center">CSS Colorguide</h1>
+
     <form>
       <div class="form-group">
         <textarea id="css" class="form-control sourcecode" rows="20" placeholder="Paste your CSS here" spellcheck="false"></textarea>
@@ -34,7 +40,21 @@
         <button type="reset" class="btn btn-default btn-sm">Clear</button>
       </div>
     </form>
-    <div data-id="result" class="result" hidden></div>
+
+    <div class="result-container" id="result-container"></div>
+
+    <script id="swatches-template" type="text/x-handlebars-template">
+      {{#if colorsFound}}
+      <h2 id="result">Pallete</h2>
+        {{#each swatches}}
+          <div class="swatch" title="{{@key}} ×{{this}}" style="background-color:{{@key}}"></div>
+        {{/each}}
+      {{else}}
+        <p class="alert alert-warning" id="result">Can't find any colors in given CSS.</p>
+      {{/if}}
+    </script>
+
+    <script src="assets/handlebars.js"></script>
     <script src="assets/app.js"></script>
   </body>
 </html>
