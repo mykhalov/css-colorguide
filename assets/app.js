@@ -1,4 +1,5 @@
 /* jshint quotmark: single, indent: 2 */
+/* global Handlebars */
 
 function normalize(color) {
   'use strict';
@@ -17,11 +18,11 @@ function normalize(color) {
 document.addEventListener('DOMContentLoaded', function () {
   'use strict';
 
-  var inputElement = document.getElementById('css');
-  var resultElement = document.getElementById('result-container');
+  var inputElement = document.getElementById('input');
+  var outputElement = document.getElementById('output');
+  var templateElement = document.getElementById('template');
 
-  var source = document.getElementById('swatches-template').innerHTML;
-  var template = Handlebars.compile(source);
+  var template = Handlebars.compile(templateElement.innerHTML);
 
   if (localStorage.input) {
     inputElement.value = localStorage.input;
@@ -33,6 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   window.onreset = function () {
     delete localStorage.input;
+    outputElement.innerHTML = '';
   };
 
   document.forms[0].onsubmit = function (e) {
@@ -46,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // TODO: Sort swatches by times used
 
-    resultElement.innerHTML = template({
+    outputElement.innerHTML = template({
       colorsFound: Boolean(matches.length), 
       swatches: swatches
     });

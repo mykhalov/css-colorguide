@@ -33,7 +33,7 @@
 
     <form>
       <div class="form-group">
-        <textarea id="css" class="form-control sourcecode" rows="20" placeholder="Paste your CSS here" spellcheck="false"></textarea>
+        <textarea id="input" class="form-control sourcecode" rows="20" placeholder="Paste your CSS here" spellcheck="false"></textarea>
       </div>
       <div class="form-group text-center">
         <button type="submit" class="btn btn-primary btn-lg">Parse</button>
@@ -41,9 +41,9 @@
       </div>
     </form>
 
-    <div class="result-container" id="result-container"></div>
+    <div class="result-container" id="output"></div>
 
-    <script id="swatches-template" type="text/x-handlebars-template">
+    <script id="template" type="text/x-handlebars-template">
       {{#if colorsFound}}
       <h2 id="result">Pallete</h2>
         {{#each swatches}}
