@@ -1,19 +1,4 @@
-/* jshint quotmark: single, indent: 2 */
-/* global Handlebars */
-
-function normalize(color) {
-  'use strict';
-
-  if (color.length === 4) {
-    var chars = color.split('');
-    color = chars[0] +
-      chars[1] + chars[1] +
-      chars[2] + chars[2] +
-      chars[3] + chars[3];
-  }
-
-  return color.toLowerCase();
-}
+/* global Handlebars, Color */
 
 document.addEventListener('DOMContentLoaded', function () {
   'use strict';
@@ -41,8 +26,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var matches = inputElement.value.match(/#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?/g) || [];
     var swatches = {};
 
-    matches.forEach(function (color) {
-      color = normalize(color);
+    matches.forEach(function (value) {
+      var color = Color(value).hexString().toLowerCase();
       swatches[color] = (swatches[color] || 0) + 1;
     });
 
