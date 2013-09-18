@@ -23,11 +23,23 @@ document.addEventListener('DOMContentLoaded', function () {
   };
 
   document.forms[0].onsubmit = function (e) {
-    var matches = inputElement.value.match(/#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?/g) || [];
+    var colorSchemes = [
+      /#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?/g,
+      /rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)/g,
+      /rgba\(\d{1,3},\s*\d{1,3},\s*\d{1,3},\s*0?\.\d+\)/g,
+      /hsl\(\d{1,3},\s*\d{1,3}%,\s*\d{1,3}%\)/g,
+      /hsla\(\d{1,3},\s*\d{1,3}%,\s*\d{1,3}%,\s*0?\.\d+\)/g
+    ];
+    var matches = [];
+
+    colorSchemes.forEach(function (scheme) {
+      matches = matches.concat(inputElement.value.match(scheme) || []);
+    });
+
     var swatches = {};
 
     matches.forEach(function (value) {
-      var color = Color(value).hexString().toLowerCase();
+      var color = Color(value).rgbString().toLowerCase();
       swatches[color] = (swatches[color] || 0) + 1;
     });
 
