@@ -11,33 +11,30 @@
 
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
-  <body class="container">
-    <h1 class="text-center">CSS Colorguide</h1>
+  </head>
 
-    <form>
+  <body class="container">
+    <script type="text/x-handlebars">
+      <h1 class="text-center">CSS Colorguide</h1>
+
       <div class="form-group">
-        <textarea id="input" class="form-control sourcecode" rows="20" placeholder="Paste your CSS here" spellcheck="false"></textarea>
+        {{textarea value=inputString class="form-control sourcecode" rows="20" placeholder="Paste your CSS here" spellcheck="false"}}
       </div>
       <div class="form-group text-center">
-        <button type="submit" class="btn btn-primary btn-lg">Parse</button>
-        <button type="reset" class="btn btn-default btn-sm">Clear</button>
+        <button {{action parse}} class="btn btn-primary">Parse</button>
+        <button {{action clear}} class="btn btn-default">Clear</button>
       </div>
-    </form>
 
-    <div class="result-container" id="output"></div>
-
-    <script id="template" type="text/x-handlebars-template">
-      {{#if colorsFound}}
-      <h2 id="result">Pallete</h2>
+      <div class="result-container">
         {{#each swatches}}
-          <div class="swatch" title="{{@key}} ×{{this}}" style="background-color:{{@key}}"></div>
+          <div class="swatch" {{bindAttr title="title" style="style"}}></div>
         {{/each}}
-      {{else}}
-        <p class="alert alert-warning" id="result">Can't find any colors in given CSS.</p>
-      {{/if}}
+      </div>
     </script>
 
-    <script src="js/handlebars.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.0.0/handlebars.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/ember.js/1.0.0/ember.min.js"></script>
     <script src="js/color.min.js"></script>
     <script src="js/app.js"></script>
   </body>
