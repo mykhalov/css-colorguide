@@ -9,25 +9,8 @@
     <meta name="description" content="Looks up given CSS for colors used and creates a palette.">
     <meta name="author" content="Pavlo Mykhalov, https://github.com/growtofill">
 
-    <link rel="stylesheet" href="assets/bootstrap.min.css">
-    <style>
-    .swatch {
-      float: left;
-      width: 30px;
-      height: 30px;
-    }
-    .sourcecode {
-      font-family: monospace;
-    }
-    .result-container {
-      margin-bottom: 8px;
-    }
-    .result-container::after {
-      content: "";
-      display: block;
-      clear: both;
-    }
-    </style>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
   <body class="container">
     <h1 class="text-center">CSS Colorguide</h1>
 
@@ -54,8 +37,8 @@
       {{/if}}
     </script>
 
-    <script src="assets/handlebars.js"></script>
-    <script src="assets/color.min.js"></script>
-    <script src="assets/app.js"></script>
+    <script src="js/handlebars.js"></script>
+    <script src="js/color.min.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>

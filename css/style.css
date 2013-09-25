@@ -1,0 +1,16 @@
+.swatch {
+  float: left;
+  width: 30px;
+  height: 30px;
+}
+.sourcecode {
+  font-family: monospace;
+}
+.result-container {
+  margin-bottom: 8px;
+}
+.result-container::after {
+  content: "";
+  display: block;
+  clear: both;
+}
