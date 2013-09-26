@@ -38,7 +38,10 @@ Parser.ApplicationController = Ember.Controller.extend({
 
       // Fill swatches array, count occurences
       matches.forEach(function (value) {
-        var color = Color(value).rgbString();
+
+        // Normalize color
+        var color = jQuery.Color(value).toRgbaString();
+        
         var swatch = swatches.findBy('color', color);
 
         if (swatch) {
