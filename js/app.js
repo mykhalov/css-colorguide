@@ -1,8 +1,7 @@
 Parser = Ember.Application.create();
 
 Parser.Swatch = Ember.Object.extend({
-  color: '',
-  occurences: 0,
+  occurences: 1,
   style: function () {
     return 'background-color:' + this.get('color');
   }.property('color'),
@@ -35,30 +34,26 @@ Parser.ApplicationController = Ember.Controller.extend({
         matches = matches.concat(inputString.match(scheme) || []);
       });
 
-      var swatches = {};
+      var swatches = [];
 
-      // Count occurences of each color
+      // Fill swatches array, count occurences
       matches.forEach(function (value) {
         var color = Color(value).rgbString();
-        swatches[color] = (swatches[color] || 0) + 1;
-      });
+        var swatch = swatches.findBy('color', color);
 
-      var swatchesArray = [];
-
-      // Create an arrays of Swatch objects
-      Object.keys(swatches).forEach(function (key) {
-        swatchesArray.push(Parser.Swatch.create({
-          color: key,
-          occurences: swatches[key]
-        }));
+        if (swatch) {
+          swatch.incrementProperty('occurences');
+        } else {
+          swatches.push(Parser.Swatch.create({ color: color }));
+        }
       });
 
       // Sort by occurences
-      swatchesArray.sort(function (a, b) {
+      swatches.sort(function (a, b) {
         return b.get('occurences') - a.get('occurences');
       });
 
-      this.set('swatches', swatchesArray);
+      this.set('swatches', swatches);
     }
   }
 });
