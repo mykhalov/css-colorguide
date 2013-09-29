@@ -10,15 +10,16 @@ Parser.Swatch = Ember.Object.extend({
   }.property('color', 'occurences')
 });
 
-Parser.ApplicationController = Ember.Controller.extend({
+Parser.ApplicationController = Ember.ArrayController.extend({
   actions: {
     clear: function () {
-      this.set('inputString', '');
+      this
+        .set('inputString', '')
+        .set('model', []);
     },
     parse: function () {
       var inputString = this.get('inputString');
 
-      // Define color schemes used in CSS
       var colorSchemes = [
         /#[0-9A-Fa-f]{3}([0-9A-Fa-f]{3})?/g,
         /rgb\(\d{1,3},\s*\d{1,3},\s*\d{1,3}\)/g,
@@ -29,34 +30,24 @@ Parser.ApplicationController = Ember.Controller.extend({
 
       var matches = [];
 
-      // Match every color scheme
       colorSchemes.forEach(function (scheme) {
         matches = matches.concat(inputString.match(scheme) || []);
       });
 
       var swatches = [];
 
-      // Fill swatches array, count occurences
       matches.forEach(function (value) {
+        var keyColor = jQuery.Color(value).toRgbaString(); // normalize color
+        var swatch = swatches.findBy('color', keyColor);
 
-        // Normalize color
-        var color = jQuery.Color(value).toRgbaString();
-        
-        var swatch = swatches.findBy('color', color);
-
-        if (swatch) {
-          swatch.incrementProperty('occurences');
-        } else {
-          swatches.push(Parser.Swatch.create({ color: color }));
-        }
+        swatch ?
+          swatch.incrementProperty('occurences') :
+          swatches.push(Parser.Swatch.create({ color: keyColor }));
       });
 
-      // Sort by occurences
-      swatches.sort(function (a, b) {
-        return b.get('occurences') - a.get('occurences');
-      });
-
-      this.set('swatches', swatches);
+      this.set('model', swatches);
     }
-  }
+  },
+  sortProperties: ['occurences'],
+  sortAscending: false
 });
