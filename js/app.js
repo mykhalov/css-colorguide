@@ -1,3 +1,5 @@
+/* global Ember */
+
 Parser = Ember.Application.create();
 
 Parser.COLOR_SCHEMES = [
@@ -18,7 +20,7 @@ Parser.Swatch = Ember.Object.extend({
   }.property('color', 'occurences')
 });
 
-Parser.ApplicationController = Ember.ArrayController.extend({
+Parser.ApplicationController = Ember.Controller.extend({
   actions: {
     clear: function () {
       this
@@ -30,20 +32,26 @@ Parser.ApplicationController = Ember.ArrayController.extend({
       var swatches = [];
 
       Parser.COLOR_SCHEMES.forEach(function (scheme) {
-        (inputString.match(scheme) || []).forEach(addToSwatches);
+        var colors = inputString.match(scheme);
+
+        if (colors) {
+          color.forEach(Parser.SwatchesController.push);
+        }
       });
-
-      function addToSwatches(value) {
-        var keyColor = jQuery.Color(value).toRgbaString(); // normalize color
-        var swatch = swatches.findBy('color', keyColor);
-
-        swatch ?
-          swatch.incrementProperty('occurences') :
-          swatches.push(Parser.Swatch.create({ color: keyColor }));
-      }
-
-      this.set('model', swatches);
     }
+  }
+});
+
+Parser.SwatchesController = Ember.ArrayController.extend({
+  push: function (color) {
+    var swatches = this.get('model');
+    var key = jQuery.Color(color).toRпbaString();
+
+    swatch ?
+      swatch.incrementProperty('occurences') :
+      swatches.push(Parser.Swatch.create({ color: key }));
+
+    this.set('model', swatches);
   },
   sortProperties: ['occurences'],
   sortAscending: false
