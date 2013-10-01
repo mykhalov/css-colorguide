@@ -1,3 +1,5 @@
+/* global Ember */
+
 Parser = Ember.Application.create();
 
 Parser.COLOR_SCHEMES = [
@@ -34,7 +36,8 @@ Parser.ApplicationController = Ember.ArrayController.extend({
       });
 
       function addToSwatches(value) {
-        var keyColor = jQuery.Color(value).toRgbaString(); // normalize color
+        // Normalize color
+        var keyColor = jQuery.Color(value).toRgbaString();
         var swatch = swatches.findBy('color', keyColor);
 
         swatch ?
