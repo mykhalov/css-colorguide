@@ -23,19 +23,16 @@ Parser.Swatch = Ember.Object.extend({
 Parser.ApplicationController = Ember.Controller.extend({
   actions: {
     clear: function () {
-      this
-        .set('inputString', '')
-        .set('model', []);
+      this.set('inputString', '');
     },
     parse: function () {
-      var inputString = this.get('inputString');
-      var swatches = [];
+      var inputString = this.get('inputString') || '';
 
       Parser.COLOR_SCHEMES.forEach(function (scheme) {
         var colors = inputString.match(scheme);
 
         if (colors) {
-          color.forEach(Parser.SwatchesController.push);
+          colors.forEach(Parser.SwatchesController.push);
         }
       });
     }
@@ -44,8 +41,8 @@ Parser.ApplicationController = Ember.Controller.extend({
 
 Parser.SwatchesController = Ember.ArrayController.extend({
   push: function (color) {
-    var swatches = this.get('model');
-    var key = jQuery.Color(color).toRпbaString();
+    var key = jQuery.Color(color).toRgbaString();
+    var swatch = this.get('model').findBy('color', key);
 
     swatch ?
       swatch.incrementProperty('occurences') :

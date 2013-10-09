@@ -25,6 +25,11 @@
         <button {{action clear}} class="btn btn-default">Clear</button>
       </div>
 
+      {{render "swatches"}}
+    </script>
+
+    <script type="text/x-handlebars" data-template-name="swatches">
+      <h2>Swatches</h2>
       <div class="result-container">
         {{#each}}
           <div class="swatch" {{bindAttr title="title" style="style"}}></div>
