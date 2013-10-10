@@ -10,29 +10,23 @@ Parser.COLOR_SCHEMES = [
   /hsla\(\d{1,3},\s*\d{1,3}%,\s*\d{1,3}%,\s*0?\.\d+\)/g
 ];
 
-Parser.Swatch = Ember.Object.extend({
-  occurences: 1,
-  style: function () {
-    return 'background-color:' + this.get('color');
-  }.property('color'),
-  title: function () {
-    return this.get('color') + ' ×' + this.get('occurences');
-  }.property('color', 'occurences')
-});
-
 Parser.ApplicationController = Ember.Controller.extend({
+  needs: ['swatches'],
+  swatchesController: Ember.computed.alias('controllers.swatches'),
   actions: {
     clear: function () {
       this.set('inputString', '');
+      this.get('swatchesController').set('content', []);
     },
     parse: function () {
       var inputString = this.get('inputString') || '';
+      var swatchesController = this.get('swatchesController').set('content', []);
 
       Parser.COLOR_SCHEMES.forEach(function (scheme) {
         var colors = inputString.match(scheme);
 
         if (colors) {
-          colors.forEach(Parser.SwatchesController.push);
+          colors.forEach(swatchesController.push, swatchesController);
         }
       });
     }
@@ -42,14 +36,22 @@ Parser.ApplicationController = Ember.Controller.extend({
 Parser.SwatchesController = Ember.ArrayController.extend({
   push: function (color) {
     var key = jQuery.Color(color).toRgbaString();
-    var swatch = this.get('model').findBy('color', key);
+    var swatch = this.findBy('color', key);
 
     swatch ?
       swatch.incrementProperty('occurences') :
-      swatches.push(Parser.Swatch.create({ color: key }));
-
-    this.set('model', swatches);
+      this.addObject({ color: key, occurences: 1 });
   },
+  itemController: 'swatch',
   sortProperties: ['occurences'],
   sortAscending: false
+});
+
+Parser.SwatchController = Ember.ObjectController.extend({
+  style: function () {
+    return 'background-color:' + this.get('color');
+  }.property('color'),
+  title: function () {
+    return this.get('color') + ' ×' + this.get('occurences');
+  }.property('color', 'occurences')
 });

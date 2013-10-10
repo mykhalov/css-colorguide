@@ -17,8 +17,8 @@
     <script type="text/x-handlebars">
       <h1 class="text-center">CSS Colorguide</h1>
 
-      <div class="form-group">
-        {{textarea value=inputString class="form-control sourcecode" rows="20" placeholder="Paste your CSS here" spellcheck="false"}}
+      <div class="form-group" spellcheck="false">
+        {{textarea value=inputString class="form-control sourcecode" rows="20" placeholder="Paste your CSS here"}}
       </div>
       <div class="form-group text-center">
         <button {{action parse}} class="btn btn-primary">Parse</button>
@@ -29,7 +29,6 @@
     </script>
 
     <script type="text/x-handlebars" data-template-name="swatches">
-      <h2>Swatches</h2>
       <div class="result-container">
         {{#each}}
           <div class="swatch" {{bindAttr title="title" style="style"}}></div>
