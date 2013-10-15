@@ -11,6 +11,25 @@ Parser.COLOR_SCHEMES = [
   /black|silver|gr(a|e)y|white|maroon|red|purple|fuchsia|green|lime|olive|yellow|navy|blue|teal|aqua|orange|aliceblue|antiquewhite|aquamarine|azure|beige|bisque|blanchedalmond|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|darkblue|darkcyan|darkgoldenrod|darkgr(a|e)y|darkgreen|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategr(a|e)y|darkturquoise|darkviolet|deeppink|deepskyblue|dimgr(a|e)y|dodgerblue|firebrick|floralwhite|forestgreen|gainsboro|ghostwhite|gold|goldenrod|greenyellow|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgr(a|e)y|lightgreen|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategr(a|e)y|lightsteelblue|lightyellow|limegreen|linen|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|oldlace|olivedrab|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|skyblue|slateblue|slategr(a|e)y|snow|springgreen|steelblue|tan|thistle|tomato|turquoise|violet|wheat|whitesmoke|yellowgreen/gi
 ];
 
+Parser.Swatch = DS.Model.extend({
+  color: DS.attr('string'),
+  occurences: DS.attr('number', { defaultValue: 1 })
+});
+
+Parser.ApplicationAdapter = DS.FixtureAdapter.extend();
+
+Parser.Swatch.FIXTURES = [];
+
+Parser.Router.map(function () {
+  this.resource('swatches', { path: '/' });
+});
+
+Parser.SwatchesRoute = Ember.Route.extend({
+  model: function () {
+    return this.store.find('swatch');
+  }
+});
+
 Parser.ApplicationController = Ember.Controller.extend({
   needs: ['swatches'],
   swatchesController: Ember.computed.alias('controllers.swatches'),
@@ -47,6 +66,7 @@ Parser.SwatchesController = Ember.ArrayController.extend({
   sortProperties: ['occurences'],
   sortAscending: false
 });
+
 
 Parser.SwatchController = Ember.ObjectController.extend({
   style: function () {
