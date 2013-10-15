@@ -34,19 +34,21 @@ Parser.ApplicationController = Ember.Controller.extend({
   actions: {
     clear: function () {
       this.set('inputString', '');
-      this.get('swatchesController').get('content').clear();
+      this.get('swatchesController').get('model').clear();
     },
     parse: function () {
       var inputString = this.get('inputString') || '';
       var swatchesController = this.get('swatchesController');
 
-      swatchesController.get('content').clear();
+      swatchesController.get('model').clear();
 
       Parser.COLOR_SCHEMES.forEach(function (scheme) {
         var colors = inputString.match(scheme) || [];
 
         colors.forEach(swatchesController.get('push'), swatchesController);
       });
+
+      swatchesController.get('model').save();
     }
   }
 });
