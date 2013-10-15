@@ -16,9 +16,7 @@ Parser.Swatch = DS.Model.extend({
   occurences: DS.attr('number', { defaultValue: 1 })
 });
 
-Parser.ApplicationAdapter = DS.FixtureAdapter.extend();
-
-Parser.Swatch.FIXTURES = [];
+Parser.ApplicationAdapter = DS.LSAdapter.extend();
 
 Parser.Router.map(function () {
   this.resource('swatches', { path: '/' });
